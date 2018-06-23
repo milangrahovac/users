@@ -5,6 +5,8 @@ import (
 	"os"
 
 	"github.com/sirupsen/logrus"
+
+	"github.com/milangrahovac/users/internal/web"
 )
 
 func main() {
@@ -23,10 +25,11 @@ func main() {
 	}
 
 	server := &http.Server{
-		Addr: ":" + port,
+		Addr:    ":" + port,
+		Handler: web.NewRouter(log),
 	}
 
-	log.Info("Listening on the port %s", port)
+	log.Infof("Listening on the port %s", port)
 	err := server.ListenAndServe()
 	if err != nil {
 		log.Fatal(err)
